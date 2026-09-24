@@ -1,6 +1,6 @@
 {
   "name": "iobroker.xsense-mqtt",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Local-only X-Sense SBS50 MQTT adapter for ioBroker with an embedded broker",
   "author": "Manemm2103",
   "license": "MIT",

@@ -3,7 +3,7 @@
 const utils = require("@iobroker/adapter-core");
 const { EmbeddedMqttBroker } = require("./lib/embeddedBroker");
 const { HomeAssistantDiscovery } = require("./lib/discovery");
-const { deviceIdFor, entityIdFor, sanitizeId } = require("./lib/objectIds");
+const { deviceIdFor, entityIdFor, parseDeviceAliases, sanitizeId } = require("./lib/objectIds");
 
 function stateDefinition(entity) {
   const deviceClass = String(entity.deviceClass || "").toLowerCase();
@@ -50,6 +50,7 @@ class XSenseMqtt extends utils.Adapter {
 
     this.broker = null;
     this.entityStateIds = new Map();
+    this.deviceAliases = new Map();
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
@@ -57,6 +58,7 @@ class XSenseMqtt extends utils.Adapter {
   async onReady() {
     await this.setStateAsync("info.connection", { val: false, ack: true });
     await this.setStateAsync("info.clients", { val: 0, ack: true });
+    this.deviceAliases = parseDeviceAliases(this.config.deviceAliases);
 
     let brokerOptions;
     try {
@@ -144,7 +146,7 @@ class XSenseMqtt extends utils.Adapter {
     await this.extendObjectAsync(`devices.${deviceId}`, {
       type: "device",
       common: {
-        name: entity.device.name || deviceId,
+        name: this.deviceAliases.get(deviceId) || entity.device.name || deviceId,
       },
       native: {
         id: entity.device.id,

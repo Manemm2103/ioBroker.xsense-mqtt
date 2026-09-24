@@ -35,9 +35,10 @@ Danach eine Instanz von `xsense-mqtt` anlegen.
 2. Einen freien Port waehlen, zum Beispiel `1885`.
 3. Optional unter **Erlaubte Client-IPs und Netze** die IP der SBS50 oder ein IPv4-Netz eintragen. `192.168.4.1/24` erlaubt beispielsweise alle Adressen von `192.168.4.0` bis `192.168.4.255`. Einzelne IPs und Netze koennen mit Komma kombiniert werden. Bei leerem Feld werden alle Clients akzeptiert.
 4. Optional Benutzername und Passwort aktivieren.
-5. Adapter speichern und neu starten.
-6. In der X-Sense-App die SBS50 oeffnen und **Mit Home Assistant verbinden** auswaehlen.
-7. Als Broker-Adresse die im LAN erreichbare IP des ioBroker-Hosts und den konfigurierten Port eintragen. Niemals `0.0.0.0` in der X-Sense-App verwenden.
+5. Optional unter **Namen der X-Sense-Geraete** die kurzen IDs (`001`, `002`, `003`) sichtbaren Namen wie `Flur` oder `Schlafzimmer` zuordnen.
+6. Adapter speichern und neu starten.
+7. In der X-Sense-App die SBS50 oeffnen und **Mit Home Assistant verbinden** auswaehlen.
+8. Als Broker-Adresse die im LAN erreichbare IP des ioBroker-Hosts und den konfigurierten Port eintragen. Niemals `0.0.0.0` in der X-Sense-App verwenden.
 
 Sobald die SBS50 verbunden ist, wird `xsense-mqtt.0.info.clients` groesser als `0`. Erkannte Geraete und Werte erscheinen unter `xsense-mqtt.0.devices`.
 

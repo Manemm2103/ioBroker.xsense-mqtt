@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 - 2026-09-24
+
+- Add configurable display names for the short X-Sense device IDs
+
 ## 0.1.2 - 2026-09-24
 
 - Stop creating per-entity `available` states and remove legacy availability objects during discovery

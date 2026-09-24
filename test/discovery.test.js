@@ -3,11 +3,25 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { HomeAssistantDiscovery, valueFromTemplate } = require("../lib/discovery");
-const { deviceIdFor, entityIdFor } = require("../lib/objectIds");
+const { deviceIdFor, entityIdFor, parseDeviceAliases } = require("../lib/objectIds");
 
 test("uses the three-digit X-Sense device suffix", () => {
   assert.equal(deviceIdFor("SBS5015A996A7_00000001"), "001");
   assert.equal(deviceIdFor("SBS5015A996A7_00000003"), "003");
+  assert.equal(deviceIdFor("1"), "001");
+});
+
+test("maps short or full device IDs to configured display names", () => {
+  const aliases = parseDeviceAliases([
+    { id: "1", name: "Flur" },
+    { id: "SBS5015A996A7_00000003", name: "Wohnzimmer" },
+    { id: "002", name: "" },
+  ]);
+
+  assert.deepEqual([...aliases], [
+    ["001", "Flur"],
+    ["003", "Wohnzimmer"],
+  ]);
 });
 
 test("uses a short entity ID below the device", () => {

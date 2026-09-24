@@ -81,6 +81,29 @@
       "lg": 3,
       "newLine": true
     },
+    "deviceAliases": {
+      "type": "table",
+      "label": "device_aliases",
+      "help": "device_aliases_help",
+      "newLine": true,
+      "sm": 12,
+      "items": [
+        {
+          "type": "text",
+          "title": "device_id",
+          "attr": "id",
+          "default": "",
+          "width": "30%"
+        },
+        {
+          "type": "text",
+          "title": "device_name",
+          "attr": "name",
+          "default": "",
+          "width": "70%"
+        }
+      ]
+    },
     "storeUnknownTopics": {
       "type": "checkbox",
       "label": "store_unknown_topics",
