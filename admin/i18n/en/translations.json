@@ -1,0 +1,21 @@
+{
+  "broker_header": "Embedded MQTT broker",
+  "bind_address": "Bind IP / listen address",
+  "bind_address_help": "0.0.0.0 listens on all network interfaces. Alternatively enter the local IP of the ioBroker host. Do not enter a CIDR network here.",
+  "mqtt_port": "MQTT port",
+  "mqtt_port_help": "A free TCP port, for example 1885. Do not use the same port as another MQTT broker.",
+  "allowed_clients": "Allowed client IPs and networks",
+  "allowed_clients_help": "Optional: individual IPs or IPv4 networks in CIDR notation, e.g. 192.168.4.1/24. Separate multiple rules with commas. Empty allows all clients.",
+  "security_header": "Access control",
+  "require_authentication": "Require username and password",
+  "mqtt_username": "MQTT username",
+  "mqtt_password": "MQTT password",
+  "processing_header": "Message processing",
+  "discovery_prefix": "Home Assistant discovery prefix",
+  "discovery_prefix_help": "X-Sense normally uses homeassistant.",
+  "store_unknown_topics": "Store unknown topics below raw",
+  "store_unknown_topics_help": "Useful for new or unrecognized X-Sense messages.",
+  "log_messages": "Show MQTT messages in the debug log",
+  "log_messages_help": "May contain sensitive data and should only be enabled for troubleshooting.",
+  "restart_info": "Changes to the IP, port or authentication take effect after restarting the adapter."
+}

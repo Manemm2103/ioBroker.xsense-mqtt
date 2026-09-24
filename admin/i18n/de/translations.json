@@ -1,0 +1,21 @@
+{
+  "broker_header": "Eingebauter MQTT-Broker",
+  "bind_address": "Bind-IP / Listen-Adresse",
+  "bind_address_help": "0.0.0.0 lauscht auf allen Netzwerkschnittstellen. Alternativ die lokale IP des ioBroker-Hosts eintragen. Hier keine CIDR-Netzmaske verwenden.",
+  "mqtt_port": "MQTT-Port",
+  "mqtt_port_help": "Ein freier TCP-Port, zum Beispiel 1885. Nicht denselben Port wie ein anderer MQTT-Broker verwenden.",
+  "allowed_clients": "Erlaubte Client-IPs und Netze",
+  "allowed_clients_help": "Optional: einzelne IPs oder IPv4-Netze in CIDR-Schreibweise, z. B. 192.168.4.1/24. Mehrere Regeln mit Komma trennen. Leer erlaubt alle Clients.",
+  "security_header": "Zugriffsschutz",
+  "require_authentication": "Benutzername und Passwort verlangen",
+  "mqtt_username": "MQTT-Benutzername",
+  "mqtt_password": "MQTT-Passwort",
+  "processing_header": "Nachrichtenverarbeitung",
+  "discovery_prefix": "Home-Assistant-Discovery-Praefix",
+  "discovery_prefix_help": "X-Sense verwendet normalerweise homeassistant.",
+  "store_unknown_topics": "Unbekannte Topics unter raw speichern",
+  "store_unknown_topics_help": "Hilfreich fuer neue oder noch nicht erkannte X-Sense-Nachrichten.",
+  "log_messages": "MQTT-Nachrichten im Debug-Log anzeigen",
+  "log_messages_help": "Kann sensible Daten enthalten und sollte nur zur Fehlersuche aktiviert werden.",
+  "restart_info": "Aenderungen an IP, Port oder Anmeldung werden nach einem Adapter-Neustart aktiv."
+}

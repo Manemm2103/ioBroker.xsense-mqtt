@@ -1,0 +1,121 @@
+{
+  "common": {
+    "name": "xsense-mqtt",
+    "version": "0.1.0",
+    "titleLang": {
+      "en": "X-Sense MQTT",
+      "de": "X-Sense MQTT"
+    },
+    "title": "X-Sense MQTT",
+    "desc": {
+      "en": "Receives X-Sense SBS50 data through an embedded local MQTT broker without cloud access.",
+      "de": "Empfaengt X-Sense-SBS50-Daten ueber einen eingebauten lokalen MQTT-Broker ohne Cloud-Zugriff."
+    },
+    "authors": [
+      "Manemm2103"
+    ],
+    "keywords": [
+      "xsense",
+      "x-sense",
+      "sbs50",
+      "mqtt",
+      "local"
+    ],
+    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "xsense-mqtt.svg",
+    "extIcon": "https://raw.githubusercontent.com/Manemm2103/x-sense.iobroker/main/admin/xsense-mqtt.svg",
+    "readme": "https://github.com/Manemm2103/x-sense.iobroker/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "iot-systems",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "tier": 3,
+    "enabled": true,
+    "stopBeforeUpdate": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.17"
+      }
+    ],
+    "protectedNative": [
+      "mqttPassword"
+    ]
+  },
+  "native": {
+    "mqttBindAddress": "0.0.0.0",
+    "mqttPort": 1885,
+    "allowedClientAddresses": "",
+    "requireAuthentication": false,
+    "mqttUsername": "",
+    "mqttPassword": "",
+    "discoveryPrefix": "homeassistant",
+    "storeUnknownTopics": true,
+    "logMessages": false
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "name": "MQTT broker is listening",
+        "type": "boolean",
+        "role": "indicator.connected",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.clients",
+      "type": "state",
+      "common": {
+        "name": "Connected MQTT clients",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.broker",
+      "type": "state",
+      "common": {
+        "name": "MQTT broker address",
+        "type": "string",
+        "role": "info.address",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    }
+  ]
+}

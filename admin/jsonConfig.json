@@ -1,0 +1,104 @@
+{
+  "i18n": true,
+  "type": "panel",
+  "items": {
+    "brokerHeader": {
+      "type": "header",
+      "text": "broker_header",
+      "size": 2
+    },
+    "mqttBindAddress": {
+      "type": "text",
+      "label": "bind_address",
+      "help": "bind_address_help",
+      "default": "0.0.0.0",
+      "sm": 6,
+      "md": 4,
+      "lg": 3,
+      "newLine": true
+    },
+    "mqttPort": {
+      "type": "number",
+      "label": "mqtt_port",
+      "help": "mqtt_port_help",
+      "default": 1885,
+      "min": 1,
+      "max": 65535,
+      "sm": 6,
+      "md": 4,
+      "lg": 3
+    },
+    "allowedClientAddresses": {
+      "type": "text",
+      "label": "allowed_clients",
+      "help": "allowed_clients_help",
+      "placeholder": "192.168.4.1/24, 192.168.10.50",
+      "sm": 12,
+      "md": 8,
+      "lg": 6,
+      "newLine": true
+    },
+    "securityHeader": {
+      "type": "header",
+      "text": "security_header",
+      "size": 2
+    },
+    "requireAuthentication": {
+      "type": "checkbox",
+      "label": "require_authentication",
+      "default": false,
+      "newLine": true
+    },
+    "mqttUsername": {
+      "type": "text",
+      "label": "mqtt_username",
+      "hidden": "!data.requireAuthentication",
+      "sm": 6,
+      "md": 4,
+      "lg": 3,
+      "newLine": true
+    },
+    "mqttPassword": {
+      "type": "password",
+      "label": "mqtt_password",
+      "hidden": "!data.requireAuthentication",
+      "sm": 6,
+      "md": 4,
+      "lg": 3
+    },
+    "processingHeader": {
+      "type": "header",
+      "text": "processing_header",
+      "size": 2
+    },
+    "discoveryPrefix": {
+      "type": "text",
+      "label": "discovery_prefix",
+      "help": "discovery_prefix_help",
+      "default": "homeassistant",
+      "sm": 6,
+      "md": 4,
+      "lg": 3,
+      "newLine": true
+    },
+    "storeUnknownTopics": {
+      "type": "checkbox",
+      "label": "store_unknown_topics",
+      "help": "store_unknown_topics_help",
+      "default": true,
+      "newLine": true
+    },
+    "logMessages": {
+      "type": "checkbox",
+      "label": "log_messages",
+      "help": "log_messages_help",
+      "default": false,
+      "newLine": true
+    },
+    "restartInfo": {
+      "type": "staticText",
+      "text": "restart_info",
+      "newLine": true
+    }
+  }
+}
