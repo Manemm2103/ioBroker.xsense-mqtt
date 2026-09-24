@@ -3,15 +3,7 @@
 const utils = require("@iobroker/adapter-core");
 const { EmbeddedMqttBroker } = require("./lib/embeddedBroker");
 const { HomeAssistantDiscovery } = require("./lib/discovery");
-
-function sanitizeId(value, fallback = "unknown") {
-  const sanitized = String(value ?? "")
-    .trim()
-    .replace(/[^A-Za-z0-9_-]+/g, "_")
-    .replace(/^_+|_+$/g, "")
-    .slice(0, 80);
-  return sanitized || fallback;
-}
+const { deviceIdFor, entityIdFor, sanitizeId } = require("./lib/objectIds");
 
 function stateDefinition(entity) {
   const deviceClass = String(entity.deviceClass || "").toLowerCase();
@@ -84,7 +76,6 @@ class XSenseMqtt extends utils.Adapter {
       onEntity: entity => this.ensureEntity(entity),
       onValue: (entity, value) => this.writeEntityValue(entity, value),
       onAttributes: (entity, attributes) => this.writeAttributes(entity, attributes),
-      onAvailability: (entity, available) => this.writeAvailability(entity, available),
       onUnknown: (topic, payload) => this.writeUnknownTopic(topic, payload),
       onWarning: message => this.log.warn(message),
     });
@@ -139,11 +130,16 @@ class XSenseMqtt extends utils.Adapter {
   }
 
   async ensureEntity(entity) {
-    const deviceId = sanitizeId(entity.device.id, "xsense");
-    const entityId = sanitizeId(entity.uniqueId || entity.objectId, "state");
-    const channelId = `devices.${deviceId}.${entityId}`;
-    const valueId = `${channelId}.value`;
+    const legacyDeviceId = sanitizeId(entity.device.id, "xsense");
+    const deviceId = deviceIdFor(legacyDeviceId);
+    const entityId = entityIdFor(entity, legacyDeviceId);
+    const stateId = `devices.${deviceId}.${entityId}`;
     const definition = stateDefinition(entity);
+
+    const legacyDeviceObjectId = `devices.${legacyDeviceId}`;
+    if (legacyDeviceId !== deviceId && (await this.getObjectAsync(legacyDeviceObjectId))) {
+      await this.delObjectAsync(legacyDeviceObjectId, { recursive: true });
+    }
 
     await this.extendObjectAsync(`devices.${deviceId}`, {
       type: "device",
@@ -151,17 +147,32 @@ class XSenseMqtt extends utils.Adapter {
         name: entity.device.name || deviceId,
       },
       native: {
+        id: entity.device.id,
         manufacturer: entity.device.manufacturer,
         model: entity.device.model,
         softwareVersion: entity.device.softwareVersion,
       },
     });
 
-    await this.extendObjectAsync(channelId, {
-      type: "channel",
+    const legacyEntityId = sanitizeId(entity.uniqueId || entity.objectId, "state");
+    const legacyChannelId = `devices.${deviceId}.${legacyEntityId}`;
+    if (legacyChannelId !== stateId && (await this.getObjectAsync(legacyChannelId))) {
+      await this.delObjectAsync(legacyChannelId, { recursive: true });
+    }
+    const currentObject = await this.getObjectAsync(stateId);
+    if (currentObject && currentObject.type !== "state") {
+      await this.delObjectAsync(stateId, { recursive: true });
+    }
+
+    await this.extendObjectAsync(stateId, {
+      type: "state",
       common: {
         name: entity.name || entityId,
-        role: "sensor",
+        type: definition.type,
+        role: definition.role,
+        read: true,
+        write: false,
+        ...(entity.unit ? { unit: entity.unit } : {}),
       },
       native: {
         component: entity.component,
@@ -171,50 +182,15 @@ class XSenseMqtt extends utils.Adapter {
       },
     });
 
-    await this.extendObjectAsync(valueId, {
-      type: "state",
-      common: {
-        name: entity.name || "Value",
-        type: definition.type,
-        role: definition.role,
-        read: true,
-        write: false,
-        ...(entity.unit ? { unit: entity.unit } : {}),
-      },
-      native: {},
-    });
-
-    await this.extendObjectAsync(`${channelId}.available`, {
-      type: "state",
-      common: {
-        name: "Available",
-        type: "boolean",
-        role: "indicator.reachable",
-        read: true,
-        write: false,
-      },
-      native: {},
-    });
-
-    this.entityStateIds.set(entity.key, channelId);
+    this.entityStateIds.set(entity.key, stateId);
   }
 
   async writeEntityValue(entity, value) {
     if (!this.entityStateIds.has(entity.key)) {
       await this.ensureEntity(entity);
     }
-    await this.setStateAsync(`${this.entityStateIds.get(entity.key)}.value`, {
+    await this.setStateAsync(this.entityStateIds.get(entity.key), {
       val: value,
-      ack: true,
-    });
-  }
-
-  async writeAvailability(entity, available) {
-    if (!this.entityStateIds.has(entity.key)) {
-      await this.ensureEntity(entity);
-    }
-    await this.setStateAsync(`${this.entityStateIds.get(entity.key)}.available`, {
-      val: available,
       ack: true,
     });
   }
@@ -223,10 +199,19 @@ class XSenseMqtt extends utils.Adapter {
     if (!this.entityStateIds.has(entity.key)) {
       await this.ensureEntity(entity);
     }
-    const channelId = this.entityStateIds.get(entity.key);
+    const entityStateId = this.entityStateIds.get(entity.key);
+    const attributesChannelId = `${entityStateId}_attributes`;
+
+    await this.extendObjectAsync(attributesChannelId, {
+      type: "channel",
+      common: {
+        name: `${entity.name || entityIdFor(entity, entity.device.id)} attributes`,
+      },
+      native: {},
+    });
 
     for (const [name, rawValue] of Object.entries(attributes)) {
-      const stateId = `${channelId}.attributes.${sanitizeId(name, "attribute")}`;
+      const stateId = `${attributesChannelId}.${sanitizeId(name, "attribute")}`;
       const value =
         rawValue !== null && typeof rawValue === "object" ? JSON.stringify(rawValue) : rawValue;
       const type = ["string", "number", "boolean"].includes(typeof value) ? typeof value : "string";

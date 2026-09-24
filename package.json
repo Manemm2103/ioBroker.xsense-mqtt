@@ -1,6 +1,6 @@
 {
   "name": "iobroker.xsense-mqtt",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local-only X-Sense SBS50 MQTT adapter for ioBroker with an embedded broker",
   "author": "Manemm2103",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "check": "node --check main.js && node --check lib/discovery.js && node --check lib/embeddedBroker.js",
+    "check": "node --check main.js && node --check lib/discovery.js && node --check lib/embeddedBroker.js && node --check lib/objectIds.js",
     "test": "node --test test/*.test.js"
   },
   "keywords": [

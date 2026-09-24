@@ -3,6 +3,25 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { HomeAssistantDiscovery, valueFromTemplate } = require("../lib/discovery");
+const { deviceIdFor, entityIdFor } = require("../lib/objectIds");
+
+test("uses the three-digit X-Sense device suffix", () => {
+  assert.equal(deviceIdFor("SBS5015A996A7_00000001"), "001");
+  assert.equal(deviceIdFor("SBS5015A996A7_00000003"), "003");
+});
+
+test("uses a short entity ID below the device", () => {
+  assert.equal(
+    entityIdFor(
+      {
+        objectId: "SBS5015A996A7_00000001_lifeend",
+        uniqueId: "SBS5015A996A7_00000001_lifeend",
+      },
+      "SBS5015A996A7_00000001",
+    ),
+    "lifeend",
+  );
+});
 
 test("discovers an X-Sense binary sensor and converts ON/OFF", async () => {
   const entities = [];
@@ -107,4 +126,29 @@ test("handles the X-Sense status payload format", async () => {
   );
 
   assert.deepEqual(values, [false]);
+});
+
+test("consumes availability packets without exposing them as values or raw topics", async () => {
+  const values = [];
+  const unknownTopics = [];
+  const discovery = new HomeAssistantDiscovery({
+    onValue: async (_entity, value) => values.push(value),
+    onUnknown: async topic => unknownTopics.push(topic),
+  });
+
+  await discovery.handle(
+    "homeassistant/binary_sensor/SBS50_A/lifeend/config",
+    JSON.stringify({
+      unique_id: "SBS50_A_lifeend",
+      state_topic: "xsense/SBS50_A/lifeend",
+      availability_topic: "xsense/SBS50_A/availability",
+      device: { identifiers: ["SBS50_A"] },
+    }),
+  );
+
+  const handled = await discovery.handle("xsense/SBS50_A/availability", "online");
+
+  assert.equal(handled, true);
+  assert.deepEqual(values, []);
+  assert.deepEqual(unknownTopics, []);
 });
