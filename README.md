@@ -24,7 +24,7 @@ Lokaler ioBroker-Adapter fuer X-Sense-Geraete hinter einer SBS50-Bridge. Der Ada
 In ioBroker unter **Adapter -> Benutzerdefinierte Installation** die GitHub-URL dieses Repositories eintragen. Alternativ auf dem ioBroker-Host:
 
 ```sh
-iobroker url https://github.com/Manemm2103/x-sense.iobroker --host YOUR_IOBROKER_HOST
+iobroker url https://github.com/Manemm2103/ioBroker.xsense-mqtt --host YOUR_IOBROKER_HOST
 ```
 
 Danach eine Instanz von `xsense-mqtt` anlegen.

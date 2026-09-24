@@ -1,18 +1,18 @@
 {
   "name": "iobroker.xsense-mqtt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local-only X-Sense SBS50 MQTT adapter for ioBroker with an embedded broker",
   "author": "Manemm2103",
   "license": "MIT",
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Manemm2103/x-sense.iobroker.git"
+    "url": "git+https://github.com/Manemm2103/ioBroker.xsense-mqtt.git"
   },
   "bugs": {
-    "url": "https://github.com/Manemm2103/x-sense.iobroker/issues"
+    "url": "https://github.com/Manemm2103/ioBroker.xsense-mqtt/issues"
   },
-  "homepage": "https://github.com/Manemm2103/x-sense.iobroker#readme",
+  "homepage": "https://github.com/Manemm2103/ioBroker.xsense-mqtt#readme",
   "packageManager": "pnpm@11.25.0",
   "engines": {
     "node": ">=22"

@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "xsense-mqtt",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "titleLang": {
       "en": "X-Sense MQTT",
       "de": "X-Sense MQTT"
@@ -29,8 +29,8 @@
     "platform": "Javascript/Node.js",
     "main": "main.js",
     "icon": "xsense-mqtt.svg",
-    "extIcon": "https://raw.githubusercontent.com/Manemm2103/x-sense.iobroker/main/admin/xsense-mqtt.svg",
-    "readme": "https://github.com/Manemm2103/x-sense.iobroker/blob/main/README.md",
+    "extIcon": "https://raw.githubusercontent.com/Manemm2103/ioBroker.xsense-mqtt/main/admin/xsense-mqtt.svg",
+    "readme": "https://github.com/Manemm2103/ioBroker.xsense-mqtt/blob/main/README.md",
     "loglevel": "info",
     "mode": "daemon",
     "type": "iot-systems",

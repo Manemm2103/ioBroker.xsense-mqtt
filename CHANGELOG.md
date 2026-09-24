@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 - 2026-09-24
+
+- Align the GitHub repository name with the ioBroker adapter name so custom URL installation can locate the installed package
+
 ## 0.1.0 - 2026-09-24
 
 - Initial local-only X-Sense SBS50 MQTT adapter
