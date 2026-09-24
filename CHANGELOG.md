@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 - 2026-09-24
+
+- Shorten alphanumeric X-Sense device suffixes such as `0000000A` to `00A`
+
 ## 0.1.3 - 2026-09-24
 
 - Add configurable display names for the short X-Sense device IDs
